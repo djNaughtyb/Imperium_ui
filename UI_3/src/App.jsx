@@ -1,17 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { UniverseThemeProvider } from "./src/context/UniverseThemeProvider";
-import { StudioStateProvider } from "./src/context/StudioStateProvider";
-import { OverlayProvider } from "./src/context/OverlayProvider";
+import { UniverseThemeProvider } from "./context/UniverseThemeProvider";
+import { StudioStateProvider } from "./context/StudioStateProvider";
+import { OverlayProvider } from "./context/OverlayProvider";
 
-import StudioShell from "./src/studio/StudioShell";
+import StudioShell from "./studio/StudioShell";
 
-import WallpaperLayer from "./src/layers/WallpaperLayer";
-import ParallaxLayer from "./src/layers/ParallaxLayer";
-import AnimatedOverlay from "./src/layers/AnimatedOverlay";
+import WallpaperLayer from "./layers/WallpaperLayer";
+import ParallaxLayer from "./layers/ParallaxLayer";
+import AnimatedOverlay from "./layers/AnimatedOverlay";
 
-import ComicsMode from "./src/modes/ComicsMode";
+import ComicsMode from "./modes/ComicsMode";
 
 export default function App() {
   return (
