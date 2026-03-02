@@ -1,34 +1,27 @@
 import React, { createContext, useState, useMemo, useContext } from "react";
-import { universeThemes } from "../theme/universeThemes";
+import { UNIVERSE_THEMES } from "../theme/universeThemes";
 
 // Context
 export const UniverseThemeContext = createContext();
 
 // Provider
 export function UniverseThemeProvider({ children }) {
-  const [activeTheme, setActiveTheme] = useState("default");
+  const [activeTheme, setActiveTheme] = useState("cosmic"); // or "default" if you add one
 
-  // Future: Primus/Zero/C++ agent can override themes here
   const switchTheme = (themeName) => {
-    if (universeThemes[themeName]) {
+    if (UNIVERSE_THEMES[themeName]) {
       setActiveTheme(themeName);
     }
   };
 
-  // Memoized theme object
   const currentTheme = useMemo(() => {
-    return universeThemes[activeTheme] || universeThemes.default;
+    return UNIVERSE_THEMES[activeTheme] || UNIVERSE_THEMES.cosmic;
   }, [activeTheme]);
 
   const value = {
     activeTheme,
     currentTheme,
     switchTheme,
-
-    // Future expansion ports:
-    // setMood: (mood) => {},
-    // setDynamicWallpaper: (url) => {},
-    // applyAgentTheme: (agentPayload) => {},
   };
 
   return (
