@@ -1,6 +1,6 @@
 // src/state/ModeManagerProvider.jsx
 import React, { createContext, useContext } from "react";
-import { useModeManager } from "./useModeManager";
+import { useModeManager } from "../State/useModeManager";
 
 const ModeManagerContext = createContext(null);
 
