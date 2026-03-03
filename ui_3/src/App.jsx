@@ -1,6 +1,6 @@
 // src/App.jsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // Core Providers
 import { UniverseThemeProvider } from "./context/UniverseThemeProvider";
@@ -37,33 +37,33 @@ export default function App() {
       <StudioStateProvider>
         <OverlayProvider>
           <ModeManagerProvider>
-            <Router>
-              <div className="relative w-full h-full overflow-hidden bg-black text-white">
 
-                {/* Cinematic Layers */}
-                <Safe><WallpaperLayer /></Safe>
-                <Safe><ParallaxLayer depth={2} /></Safe>
-                <Safe><AnimatedOverlay /></Safe>
+            <div className="relative w-full h-full overflow-hidden bg-black text-white">
 
-                {/* Main Studio Frame */}
-                <Safe>
-                  <StudioShell>
-                    <Routes>
-                      <Route
-                        path="/"
-                        element={
-                          <div style={{ padding: 40, fontSize: 24 }}>
-                            Studio Online
-                          </div>
-                        }
-                      />
-                      <Route path="/comics" element={<ComicsMode />} />
-                    </Routes>
-                  </StudioShell>
-                </Safe>
+              {/* Cinematic Layers */}
+              <Safe><WallpaperLayer /></Safe>
+              <Safe><ParallaxLayer depth={2} /></Safe>
+              <Safe><AnimatedOverlay /></Safe>
 
-              </div>
-            </Router>
+              {/* Main Studio Frame */}
+              <Safe>
+                <StudioShell>
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <div style={{ padding: 40, fontSize: 24 }}>
+                          Studio Online
+                        </div>
+                      }
+                    />
+                    <Route path="/comics" element={<ComicsMode />} />
+                  </Routes>
+                </StudioShell>
+              </Safe>
+
+            </div>
+
           </ModeManagerProvider>
         </OverlayProvider>
       </StudioStateProvider>
