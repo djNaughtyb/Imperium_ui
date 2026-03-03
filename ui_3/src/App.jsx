@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UniverseThemeProvider } from "./context/UniverseThemeProvider";
 import { StudioStateProvider } from "./context/StudioStateProvider";
 import { OverlayProvider } from "./context/OverlayProvider";
-import { ModeManagerProvider } from "./state/ModeManagerProvider";
+import { ModeManagerProvider } from "./context/ModeManagerProvider";
 
 // Cinematic Layers
 import WallpaperLayer from "./layers/WallpaperLayer";
