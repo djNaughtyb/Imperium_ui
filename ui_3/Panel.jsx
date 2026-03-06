@@ -1,33 +1,59 @@
-import { useEffect, useState } from react;
-import { usePanelContext, useStudioContext, useThemeContext } from ../context/PanelContext.jsx;
-import { getThemeClasses } from ../utils/themeUtils.jsx;
+import { useState } from "react";
+import { api } from "../api/client";
+import { useAuth } from "../state/auth";
+import { useProject } from "../state/project";
 
 export const Panel = ({ panel }) => {
-  const { theme } = useThemeContext();
-  const { background, accent, border, darkMode } = getThemeClasses(theme);
+  const { token } = useAuth();
+  const { updatePanel } = useProject();
+
   const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(panel.content);
+  const [text, setText] = useState(panel.text);
+  const [loading, setLoading] = useState(false);
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+  const handleSave = async () => {
+    setLoading(true);
 
-  const handleSave = () => {
-    updatePanel({ ...panel, content: editedContent });
-    setIsEditing(false);
+    try {
+      const updated = await api(`/panels/${panel.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          text
+        })
+      });
+
+      updatePanel(updated);
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Failed to update panel:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="p-4 border rounded">
+    <div className="bg-zinc-900 border border-zinc-700 p-4 rounded-lg shadow-lg">
       {!isEditing ? (
         <div>
-          <div className="text-lg font-bold">Panel Content</div>
-          <div className="mt-2 p-2 bg-opacity-20 bg-white rounded">
-            {panel.content}
+          <div className="text-lg font-bold mb-1">
+            Panel {panel.order_index ?? ""}
           </div>
+
+          <div className="text-sm text-gray-400 mb-2">
+            Layout: {panel.layout}
+          </div>
+
+          <div className="p-2 bg-zinc-800 rounded text-gray-200 whitespace-pre-wrap">
+            {panel.text}
+          </div>
+
           <button
-            onClick={handleEdit}
-            className="mt-2 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+            onClick={() => setIsEditing(true)}
+            className="mt-3 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Edit
           </button>
@@ -35,20 +61,23 @@ export const Panel = ({ panel }) => {
       ) : (
         <div>
           <textarea
-            value={editedContent}
-            onChange={(e) => setEditedContent(e.target.value)}
-            className="w-full p-2 border rounded"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="w-full p-2 border rounded bg-zinc-800 text-white"
           />
-          <div className="mt-2">
+
+          <div className="mt-3 flex gap-2">
             <button
               onClick={handleSave}
-              className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+              disabled={loading}
+              className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
             >
-              Save
+              {loading ? "Saving..." : "Save"}
             </button>
+
             <button
               onClick={() => setIsEditing(false)}
-              className="px-2 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 ml-2"
+              className="px-2 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
             >
               Cancel
             </button>
